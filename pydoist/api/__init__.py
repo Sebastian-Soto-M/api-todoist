@@ -52,5 +52,7 @@ def auth_url():
 
 
 def authorize():
-
+    api = TodoistAPI('a256127132088503212ed304625e0400f54a3117')
+    api.sync()
+    print(api.state)
     breakpoint()
