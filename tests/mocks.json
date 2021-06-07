@@ -9,7 +9,7 @@
       "sync_id": 0,
       "order": 1,
       "favorite": false,
-      "url": "https://todoist.com/showProject?id=2203306141"
+      "url": "https://pydoist.com/showProject?id=2203306141"
     },
     "retrieve_all": [
       {
@@ -22,7 +22,7 @@
         "sync_id": 0,
         "favorite": false,
         "inbox_project": true,
-        "url": "https://todoist.com/showProject?id=220474322"
+        "url": "https://pydoist.com/showProject?id=220474322"
       },
       {
         "id": 2203306141,
@@ -36,7 +36,7 @@
         "parent_id": 220325187,
         "team_inbox": false,
         "inbox_project": false,
-        "url": "https://todoist.com/showProject?id=2203306141&sync_id=2203843926"
+        "url": "https://pydoist.com/showProject?id=2203306141&sync_id=2203843926"
       }
     ],
     "create": {
@@ -48,7 +48,7 @@
       "sync_id": 0,
       "order": 1,
       "favorite": true,
-      "url": "https://todoist.com/showProject?id=2203306141"
+      "url": "https://pydoist.com/showProject?id=2203306141"
     },
     "update": {},
     "delete": {}

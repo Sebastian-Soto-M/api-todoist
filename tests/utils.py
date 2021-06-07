@@ -3,7 +3,7 @@ import logging
 from os.path import join
 from pathlib import Path
 
-from todoist.utils import CLI, Argument
+from pydoist.utils import CLI, Argument
 
 
 def debug_json(logger: logging.Logger, title: str, data: dict, indent=2):

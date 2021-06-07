@@ -1,2 +1,3 @@
-# api-todoist
-A python wrapper for the Todoist's Api
+# api-pydoist
+
+A python wrapper for the pydoist's Api

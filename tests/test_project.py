@@ -4,9 +4,9 @@ from unittest import TestCase, main, skip
 
 import requests
 import responses
-from todoist import API_URL
-from todoist.models import ProjectModel
-from todoist.utils import FORMAT
+from pydoist import API_URL
+from pydoist.models import ProjectModel
+from pydoist.utils import FORMAT
 
 from .utils import debug_json, mocks_path
 
