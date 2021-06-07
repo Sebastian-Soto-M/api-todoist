@@ -1,24 +1,18 @@
 import logging
 import sys
 
-from todoist.utils import CLI, Argument
+from tests.test_project import TestProject
+from tests.test_section import TestSection
+from tests.utils import cli_options
+
+TESTS = {
+    'project': TestProject,
+    'section': TestSection
+}
 
 
-def cli_options() -> dict:
-    options = {
-        "name": "Todoits Tests",
-        "flags": {Argument('v', 'verbose', 'Use the DEBUG logging mode')},
-        "arguments": {
-            Argument('s', 'suite', 'Select a suite of tests to run',
-                     str, {'models'})
-        }
-    }
-    return CLI(**options).read()
-
-
-CLI_OPTS = cli_options()
+CLI_OPTS = cli_options(TESTS.keys())
 
 logging_mode = logging.INFO if not CLI_OPTS.verbose else logging.DEBUG
-
 logging.basicConfig(level=logging_mode, stream=sys.stdout,
-                    format='\t%(levelname)s| %(message)s')
+                    format='%(levelname)s\t%(message)s')
