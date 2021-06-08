@@ -1,26 +1,49 @@
+from typing import Any, Dict, List, Optional
+
 import requests
-from requests import Response
-from pydoist import API_URL
-from pydoist.models import ProjectModel
+from pydantic.main import BaseModel
+from pydoist.models import (ItemModel, NoteModel, ProjectObjectModel,
+                            SectionModel)
+from todoist.api import TodoistAPI
 
-from . import CLIENT_ID, CLIENT_SECRET, TOKEN, ICrud
+
+class ProjectInfoModel(BaseModel):
+    project: ProjectObjectModel
+    notes: List[NoteModel]
 
 
-class ProjectApi(ICrud[ProjectModel]):
+class ProjectDataModel(BaseModel):
+    project: ProjectObjectModel
+    items: List[ItemModel]
+    sections: List[SectionModel]
+    project_notes: List[NoteModel]
 
-    __URL = API_URL.format('projects')
 
-    def create(self, obj: ProjectModel) -> Response:
+class ProjectApi:
+
+    def __init__(self, api: TodoistAPI):
+        self.__api = api
+
+    @property
+    def api(self):
+        return self.__api
+
+    def create(self, obj: ProjectObjectModel) -> Any:
         raise NotImplementedError
 
-    def update(self, obj: ProjectModel) -> Response:
+    def update(self, obj: ProjectObjectModel) -> Any:
         raise NotImplementedError
 
-    def delete(self, obj: ProjectModel) -> Response:
+    def delete(self, obj: ProjectObjectModel) -> Any:
         raise NotImplementedError
 
-    def retrieve(self, id: int) -> Response:
-        raise NotImplementedError
+    def retrieve_data(self, id: int) -> ProjectDataModel:
+        info = self.api.projects.get_data(id)
+        return ProjectDataModel(**info)
 
-    def retrieve_all(self, id: int) -> Response:
-        return requests.get(f'{self.__URL}/{id}')
+    def retrieve_info(self, id: int) -> ProjectInfoModel:
+        info = self.api.projects.get(id)
+        return ProjectInfoModel(**info)
+
+    def retrieve_all(self) -> List[ProjectObjectModel]:
+        return [ProjectObjectModel(**proj.data) for proj in self.api.projects.all()]

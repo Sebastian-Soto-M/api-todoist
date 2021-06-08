@@ -2,22 +2,22 @@ import logging
 import time
 from unittest import TestCase, main, skip
 
-import requests
-import responses
-from pydoist import API_URL
-from pydoist.models import ProjectModel
+from pydoist.api.project import ProjectApi, ProjectDataModel, ProjectInfoModel
+from pydoist.models import ProjectObjectModel
 from pydoist.utils import FORMAT
+from todoist.api import TodoistAPI
 
-from .utils import debug_json, mocks_path
-
-URL = API_URL.format('projects')
+from .utils import debug_json
 
 
 class TestProject(TestCase):
+    api: ProjectApi
+
     @classmethod
     def setUpClass(cls):
         cls.logger = logging.getLogger(cls.__name__)
-        cls.response_bodies = mocks_path('project')
+        cls.api = ProjectApi(TodoistAPI(
+            'a256127132088503212ed304625e0400f54a3117'))
 
     def setUp(self):
         self.startTime = time.time()
@@ -28,29 +28,15 @@ class TestProject(TestCase):
                          self.id().split('.')[-1], t)
         self.logger.info(info)
 
-    @responses.activate
-    def test_parse(self):
-        body = self.response_bodies['retrieve']
-        uid = body['id']
-        endpoint = f'{URL}/{uid}'
-        responses.add(responses.GET, endpoint, json=body, status=200)
+    def test_get_info(self):
+        obj = self.api.retrieve_info(2266883000)  # personal project
+        debug_json(self.logger, 'ProjectInfoModel', obj.dict())
+        self.assertIsInstance(obj, ProjectInfoModel)
 
-        req = requests.get(endpoint)
-        obj = ProjectModel.parse(req)
-        debug_json(self.logger, 'ProjectModel', obj.dict())
-        self.assertIsInstance(obj, ProjectModel)
-
-    @responses.activate
-    def test_parse_list(self):
-        body = self.response_bodies['retrieve_all']
-        endpoint = URL
-        responses.add(responses.GET, endpoint, json=body, status=200)
-
-        req = requests.get(endpoint)
-        obj = ProjectModel.parse_list(req)
-        for proj in obj:
-            debug_json(self.logger, 'ProjectModel', proj.dict())
-        self.assertIsInstance(obj[1], ProjectModel)
+    def test_get_data(self):
+        obj = self.api.retrieve_data(2266883000)  # personal project
+        debug_json(self.logger, 'ProjectDataModel', obj.dict())
+        self.assertIsInstance(obj, ProjectDataModel)
 
 
 if __name__ == "__main__":
