@@ -1,10 +1,11 @@
 import logging
 import time
-from unittest import TestCase, main
+from unittest import TestCase, main, skip
 
+from pydoist.api import authorize
 from pydoist.utils import FORMAT
 
-from tests.utils import debug_json
+from tests.utils import debug_json, mocks_path
 
 
 class TestSection(TestCase):
