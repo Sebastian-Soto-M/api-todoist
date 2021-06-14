@@ -16,8 +16,8 @@ class TestProject(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.logger = logging.getLogger(cls.__name__)
-        cls.api = ProjectApi(TodoistAPI(
-            'a256127132088503212ed304625e0400f54a3117'))
+        tapi = TodoistAPI('a256127132088503212ed304625e0400f54a3117')
+        cls.api = ProjectApi(tapi)
 
     def setUp(self):
         self.startTime = time.time()
@@ -27,6 +27,11 @@ class TestProject(TestCase):
         info = FORMAT % (TestProject.__name__,
                          self.id().split('.')[-1], t)
         self.logger.info(info)
+
+    def test_get(self):
+        obj = self.api.retrieve(2266883000)  # personal project
+        debug_json(self.logger, 'ProjectObjectModel', obj.dict())
+        self.assertIsInstance(obj, ProjectObjectModel)
 
     def test_get_info(self):
         obj = self.api.retrieve_info(2266883000)  # personal project

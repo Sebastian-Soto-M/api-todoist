@@ -4,8 +4,6 @@ from typing import Any, Dict, List, Optional, Set
 
 from pydantic import BaseModel
 
-from requests.models import Response
-
 
 class ProjectObjectModel(BaseModel):
     id: int
@@ -20,6 +18,18 @@ class ProjectObjectModel(BaseModel):
     is_deleted: bool
     is_archived: bool
     is_favorite: bool
+
+
+class ProjectInfoModel(BaseModel):
+    project: ProjectObjectModel
+    notes: List[NoteModel]
+
+
+class ProjectDataModel(BaseModel):
+    project: ProjectObjectModel
+    items: List[ItemModel]
+    sections: List[SectionModel]
+    project_notes: List[NoteModel]
 
 
 class SectionModel(BaseModel):
