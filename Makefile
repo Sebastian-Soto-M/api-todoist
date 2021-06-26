@@ -15,9 +15,7 @@ install:
 	$(PYTHON) -m pip install -r requirements.txt
 
 test:
-	clear
-	@clean
-	$(PYTHON) -m tests
+	$(PYTHON) -m tests -v
 
 clean:
 	fdfind -I cache . -x rm -rf
